@@ -12,14 +12,14 @@ namespace CustomerManagement.Api.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly CustomerRepository _customerRepository;
-        private readonly IEmailGateway _emailGateway;
+        private readonly CustomerRepository customerRepository;
+        private readonly IEmailGateway emailGateway;
 
         public CustomerController(UnitOfWork unitOfWork, IEmailGateway emailGateway)
             : base(unitOfWork)
         {
-            _customerRepository = new CustomerRepository(unitOfWork);
-            _emailGateway = emailGateway;
+            this.customerRepository = new CustomerRepository(unitOfWork);
+            this.emailGateway = emailGateway;
         }
 
         [HttpPost]
@@ -36,7 +36,7 @@ namespace CustomerManagement.Api.Controllers
                 return Error(result.Error);
 
             var customer = new Customer(customerName.Value, primaryEmail.Value, secondaryEmail.Value, industry.Value);
-            _customerRepository.Save(customer);
+            this.customerRepository.Save(customer);
 
             return Ok();
         }
@@ -47,14 +47,14 @@ namespace CustomerManagement.Api.Controllers
                 return Result.Ok<Maybe<Email>>(null);
 
             return Email.Create(secondaryEmail)
-                .Map(email => (Maybe<Email>)email);
+                .Map(email => (Maybe<Email>) email);
         }
 
         [HttpGet]
         [Route("customers/{id}")]
         public HttpResponseMessage Get(long id)
         {
-            Maybe<Customer> customerOrNothing = _customerRepository.GetById(id);
+            Maybe<Customer> customerOrNothing = this.customerRepository.GetById(id);
             if (customerOrNothing.HasNoValue)
                 return Error("Customer with such Id is not found: " + id);
 
@@ -78,13 +78,13 @@ namespace CustomerManagement.Api.Controllers
         [Route("customers/{id}/emailing")]
         public HttpResponseMessage DisableEmailing(long id)
         {
-            Maybe<Customer> customerOrNothing = _customerRepository.GetById(id);
+            Maybe<Customer> customerOrNothing = this.customerRepository.GetById(id);
             if (customerOrNothing.HasNoValue)
                 return Error("Customer with such Id is not found: " + id);
 
             Customer customer = customerOrNothing.Value;
             customer.DisableEmailing();
-            
+
             return Ok();
         }
 
@@ -92,7 +92,7 @@ namespace CustomerManagement.Api.Controllers
         [Route("customers/{id}")]
         public HttpResponseMessage Update(UpdateCustomerModel model)
         {
-            Result<Customer> customerResult = _customerRepository.GetById(model.Id)
+            Result<Customer> customerResult = customerRepository.GetById(model.Id)
                 .ToResult("Customer with such Id is not found: " + model.Id);
             Result<Industry> industryResult = Industry.Get(model.Industry);
 
@@ -105,11 +105,11 @@ namespace CustomerManagement.Api.Controllers
         [Route("customers/{id}/promotion")]
         public HttpResponseMessage Promote(long id)
         {
-            return _customerRepository.GetById(id)
+            return customerRepository.GetById(id)
                 .ToResult("Customer with such Id is not found: " + id)
                 .Ensure(customer => customer.CanBePromoted(), "The customer has the highest status possible")
                 .OnSuccess(customer => customer.Promote())
-                .OnSuccess(customer => _emailGateway.SendPromotionNotification(customer.PrimaryEmail, customer.Status))
+                .OnSuccess(customer => emailGateway.SendPromotionNotification(customer.PrimaryEmail, customer.Status))
                 .OnBoth(result => result.IsSuccess ? Ok() : Error(result.Error));
         }
     }

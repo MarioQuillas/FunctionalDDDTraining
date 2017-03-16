@@ -9,64 +9,64 @@ namespace CustomerManagement.Logic.Utils
 {
     public class UnitOfWork : IDisposable
     {
-        private readonly ISession _session;
-        private readonly ITransaction _transaction;
-        private bool _isAlive = true;
-        private bool _isCommitted;
+        private readonly ISession session;
+        private readonly ITransaction transaction;
+        private bool isAlive = true;
+        private bool isCommitted;
 
         public UnitOfWork()
         {
-            _session = SessionFactory.OpenSession();
-            _transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted);
+            this.session = SessionFactory.OpenSession();
+            this.transaction = session.BeginTransaction(IsolationLevel.ReadCommitted);
         }
 
         public void Dispose()
         {
-            if (!_isAlive)
+            if (!this.isAlive)
                 return;
 
-            _isAlive = false;
+            this.isAlive = false;
 
             try
             {
-                if (_isCommitted)
+                if (this.isCommitted)
                 {
-                    _transaction.Commit();
+                    this.transaction.Commit();
                 }
             }
             finally
             {
-                _transaction.Dispose();
-                _session.Dispose();
+                this.transaction.Dispose();
+                this.session.Dispose();
             }
         }
 
         public void Commit()
         {
-            if (!_isAlive)
+            if (!this.isAlive)
                 return;
 
-            _isCommitted = true;
+            this.isCommitted = true;
         }
 
         internal Maybe<T> Get<T>(long id) where T : class
         {
-            return _session.Get<T>(id);
+            return this.session.Get<T>(id);
         }
 
         internal void SaveOrUpdate<T>(T entity)
         {
-            _session.SaveOrUpdate(entity);
+            this.session.SaveOrUpdate(entity);
         }
 
         internal void Delete<T>(T entity)
         {
-            _session.Delete(entity);
+            this.session.Delete(entity);
         }
 
         internal IQueryable<T> Query<T>()
         {
-            return _session.Query<T>();
+            return this.session.Query<T>();
         }
     }
 }

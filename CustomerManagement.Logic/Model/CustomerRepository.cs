@@ -13,7 +13,7 @@ namespace CustomerManagement.Logic.Model
 
         public Customer GetByName(string name)
         {
-            return _unitOfWork.Query<Customer>()
+            return UnitOfWork.Query<Customer>()
                 .SingleOrDefault(x => x.Name == name);
         }
     }

@@ -5,21 +5,21 @@ namespace CustomerManagement.Logic.Common
     public class Repository<T>
         where T : Entity
     {
-        protected readonly UnitOfWork _unitOfWork;
+        protected readonly UnitOfWork UnitOfWork;
 
         protected Repository(UnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
+            this.UnitOfWork = unitOfWork;
         }
 
         public Maybe<T> GetById(long id)
         {
-            return _unitOfWork.Get<T>(id);
+            return UnitOfWork.Get<T>(id);
         }
 
         public void Save(T entity)
         {
-            _unitOfWork.SaveOrUpdate(entity);
+            UnitOfWork.SaveOrUpdate(entity);
         }
     }
 }
