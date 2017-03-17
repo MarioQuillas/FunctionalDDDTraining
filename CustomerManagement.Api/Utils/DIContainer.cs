@@ -7,24 +7,24 @@ namespace CustomerManagement.Api.Utils
 {
     public static class DIContainer
     {
-        private static UnityContainer _container;
+        private static UnityContainer container;
 
         internal static void Init()
         {
-            _container = new UnityContainer();
+            container = new UnityContainer();
 
-            _container.RegisterType<UnitOfWork, UnitOfWork>(new PerHttpRequestLifetime("UnitOfWork"));
-            _container.RegisterType<IEmailGateway, EmailGateway>(new TransientLifetimeManager());
+            container.RegisterType<UnitOfWork, UnitOfWork>(new PerHttpRequestLifetime("UnitOfWork"));
+            container.RegisterType<IEmailGateway, EmailGateway>(new TransientLifetimeManager());
         }
 
         public static UnityDependencyResolver GetDependencyResolver()
         {
-            return new UnityDependencyResolver(_container);
+            return new UnityDependencyResolver(container);
         }
 
         public static UnitOfWork ResolveUnitOfWork()
         {
-            return _container.Resolve<UnitOfWork>();
+            return container.Resolve<UnitOfWork>();
         }
 
         public static bool IsUnitOfWorkInstantiated()
