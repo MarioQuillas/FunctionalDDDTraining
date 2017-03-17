@@ -15,7 +15,9 @@ namespace CustomerManagement.Api.Controllers
         private readonly CustomerRepository customerRepository;
         private readonly IEmailGateway emailGateway;
 
-        public CustomerController(UnitOfWork unitOfWork, IEmailGateway emailGateway)
+        public CustomerController(
+            UnitOfWork unitOfWork, 
+            IEmailGateway emailGateway)
             : base(unitOfWork)
         {
             this.customerRepository = new CustomerRepository(unitOfWork);
