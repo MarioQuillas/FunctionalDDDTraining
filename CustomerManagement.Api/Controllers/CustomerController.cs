@@ -16,7 +16,7 @@ namespace CustomerManagement.Api.Controllers
         private readonly IEmailGateway emailGateway;
 
         public CustomerController(
-            UnitOfWork unitOfWork, 
+            UnitOfWork unitOfWork,
             IEmailGateway emailGateway)
             : base(unitOfWork)
         {
