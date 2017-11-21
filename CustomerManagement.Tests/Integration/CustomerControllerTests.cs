@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 using CustomerManagement.Api.Controllers;
 using CustomerManagement.Api.Models;
 using CustomerManagement.Logic.Model;
 using CustomerManagement.Logic.Utils;
 using CustomerManagement.Tests.Fakes;
 using CustomerManagement.Tests.Utils;
+using Xunit;
 
 namespace CustomerManagement.Tests.Integration
 {

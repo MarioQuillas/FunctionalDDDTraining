@@ -1,4 +1,6 @@
-﻿namespace CustomerManagement.Logic.Model
+﻿using FluentNHibernate.Mapping;
+
+namespace CustomerManagement.Logic.Model
 {
     public class CustomerMap : ClassMap<Customer>
     {

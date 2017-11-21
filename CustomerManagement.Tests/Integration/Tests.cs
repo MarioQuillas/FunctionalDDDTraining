@@ -1,4 +1,6 @@
-﻿using CustomerManagement.Logic.Utils;
+﻿using System.Data;
+using System.Data.SqlClient;
+using CustomerManagement.Logic.Utils;
 
 namespace CustomerManagement.Tests.Integration
 {

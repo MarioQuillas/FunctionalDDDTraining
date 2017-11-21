@@ -1,4 +1,6 @@
-﻿using CustomerManagement.Api.Models;
+﻿using System.Net.Http;
+using System.Web.Http;
+using CustomerManagement.Api.Models;
 using CustomerManagement.Logic.Common;
 using CustomerManagement.Logic.Model;
 using CustomerManagement.Logic.Utils;

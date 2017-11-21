@@ -1,4 +1,6 @@
-﻿namespace CustomerManagement.Tests.Utils
+﻿using System.Net;
+
+namespace CustomerManagement.Tests.Utils
 {
     public class Response
     {

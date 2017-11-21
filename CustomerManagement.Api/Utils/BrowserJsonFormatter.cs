@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace CustomerManagement.Api.Utils
 {

@@ -1,4 +1,5 @@
 ﻿using CustomerManagement.Logic.Model;
+using Xunit;
 
 namespace CustomerManagement.Tests.Utils
 {

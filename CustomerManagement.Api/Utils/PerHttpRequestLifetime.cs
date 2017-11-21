@@ -1,3 +1,6 @@
+using System.Web;
+using Microsoft.Practices.Unity;
+
 namespace CustomerManagement.Api.Utils
 {
     public class PerHttpRequestLifetime : LifetimeManager

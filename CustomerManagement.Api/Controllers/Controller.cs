@@ -1,4 +1,7 @@
-﻿using CustomerManagement.Api.Models;
+﻿using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using CustomerManagement.Api.Models;
 using CustomerManagement.Logic.Utils;
 
 namespace CustomerManagement.Api.Controllers
