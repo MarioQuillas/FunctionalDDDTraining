@@ -1,5 +1,4 @@
 ﻿using System;
-using NullGuard;
 
 namespace CustomerManagement.Logic.Common
 {
@@ -7,6 +6,7 @@ namespace CustomerManagement.Logic.Common
         where T : class
     {
         private readonly T _value;
+
         public T Value
         {
             get
@@ -59,7 +59,7 @@ namespace CustomerManagement.Logic.Common
             if (!(obj is Maybe<T>))
                 return false;
 
-            var other = (Maybe<T>)obj;
+            var other = (Maybe<T>) obj;
             return Equals(other);
         }
 

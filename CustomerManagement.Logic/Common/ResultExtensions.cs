@@ -42,9 +42,7 @@ namespace CustomerManagement.Logic.Common
         public static Result<T> OnSuccess<T>(this Result<T> result, Action<T> action)
         {
             if (result.IsSuccess)
-            {
                 action(result.Value);
-            }
 
             return result;
         }
@@ -57,9 +55,7 @@ namespace CustomerManagement.Logic.Common
         public static Result OnSuccess(this Result result, Action action)
         {
             if (result.IsSuccess)
-            {
                 action();
-            }
 
             return result;
         }

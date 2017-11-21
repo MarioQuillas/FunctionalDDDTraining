@@ -1,5 +1,4 @@
 ﻿using System;
-using NHibernate.Proxy;
 
 namespace CustomerManagement.Logic.Common
 {

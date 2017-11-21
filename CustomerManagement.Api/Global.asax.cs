@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.ExceptionHandling;
 using CustomerManagement.Api.Utils;
 using CustomerManagement.Logic.Utils;
-using ExceptionLogger = CustomerManagement.Api.Utils.ExceptionLogger;
 
 namespace CustomerManagement.Api
 {
@@ -43,7 +39,7 @@ namespace CustomerManagement.Api
             if (!DIContainer.IsUnitOfWorkInstantiated())
                 return;
 
-            UnitOfWork unitOfWork = DIContainer.ResolveUnitOfWork();
+            var unitOfWork = DIContainer.ResolveUnitOfWork();
             unitOfWork.Dispose();
         }
 

@@ -1,6 +1,4 @@
-﻿using System.Data;
-using System.Data.SqlClient;
-using CustomerManagement.Logic.Utils;
+﻿using CustomerManagement.Logic.Utils;
 
 namespace CustomerManagement.Tests.Integration
 {
@@ -17,8 +15,8 @@ namespace CustomerManagement.Tests.Integration
 
         private void ClearDatabase()
         {
-            string query = 
-                "DELETE FROM dbo.Customer;" + 
+            var query =
+                "DELETE FROM dbo.Customer;" +
                 "UPDATE dbo.Ids SET NextHigh = 0";
 
             using (var cnn = new SqlConnection(ConnectionString))

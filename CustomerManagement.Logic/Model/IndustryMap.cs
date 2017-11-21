@@ -1,5 +1,3 @@
-using FluentNHibernate.Mapping;
-
 namespace CustomerManagement.Logic.Model
 {
     public class IndustryMap : ClassMap<Industry>

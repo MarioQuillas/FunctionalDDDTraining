@@ -1,7 +1,5 @@
 ﻿using CustomerManagement.Logic.Model;
 using CustomerManagement.Logic.Utils;
-using Microsoft.Practices.Unity;
-using Unity.WebApi;
 
 namespace CustomerManagement.Api.Utils
 {

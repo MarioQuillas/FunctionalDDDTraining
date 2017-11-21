@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Mail;
-using CustomerManagement.Logic.Common;
+﻿using CustomerManagement.Logic.Common;
 
 namespace CustomerManagement.Logic.Model
 {

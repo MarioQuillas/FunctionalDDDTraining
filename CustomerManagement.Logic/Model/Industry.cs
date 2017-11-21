@@ -7,8 +7,6 @@ namespace CustomerManagement.Logic.Model
         public static readonly Industry Cars = new Industry(1, "Cars");
         public static readonly Industry Pharmacy = new Industry(2, "Pharmacy");
         public static readonly Industry Other = new Industry(3, "Other");
-        
-        public virtual string Name { get; protected set; }
 
         protected Industry()
         {
@@ -19,6 +17,8 @@ namespace CustomerManagement.Logic.Model
             Id = id;
             Name = name;
         }
+
+        public virtual string Name { get; protected set; }
 
         public static Result<Industry> Get(Maybe<string> name)
         {

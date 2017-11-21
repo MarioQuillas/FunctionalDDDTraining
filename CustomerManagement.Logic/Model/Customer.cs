@@ -6,20 +6,10 @@ namespace CustomerManagement.Logic.Model
     public class Customer : Entity
     {
         private readonly string _name;
-        public virtual CustomerName Name => (CustomerName)_name;
 
         private readonly string _primaryEmail;
-        public virtual Email PrimaryEmail => (Email)_primaryEmail;
 
         private string _secondaryEmail;
-        public virtual Maybe<Email> SecondaryEmail
-        {
-            get { return _secondaryEmail == null ? null : (Email)_secondaryEmail; }
-            protected set { _secondaryEmail = value.Unwrap(x => x.Value); }
-        }
-
-        public virtual EmailingSettings EmailingSettings { get; protected set; }
-        public virtual CustomerStatus Status { get; protected set; }
 
         protected Customer()
         {
@@ -34,6 +24,18 @@ namespace CustomerManagement.Logic.Model
             EmailingSettings = new EmailingSettings(industry, false);
             Status = CustomerStatus.Regular;
         }
+
+        public virtual CustomerName Name => (CustomerName) _name;
+        public virtual Email PrimaryEmail => (Email) _primaryEmail;
+
+        public virtual Maybe<Email> SecondaryEmail
+        {
+            get => _secondaryEmail == null ? null : (Email) _secondaryEmail;
+            protected set { _secondaryEmail = value.Unwrap(x => x.Value); }
+        }
+
+        public virtual EmailingSettings EmailingSettings { get; protected set; }
+        public virtual CustomerStatus Status { get; protected set; }
 
         public virtual void DisableEmailing()
         {

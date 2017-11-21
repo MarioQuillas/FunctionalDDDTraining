@@ -9,7 +9,7 @@ namespace CustomerManagement.Logic.Common
 
         protected Repository(UnitOfWork unitOfWork)
         {
-            this.UnitOfWork = unitOfWork;
+            UnitOfWork = unitOfWork;
         }
 
         public Maybe<T> GetById(long id)

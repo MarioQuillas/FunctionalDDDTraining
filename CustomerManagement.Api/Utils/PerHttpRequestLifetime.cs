@@ -1,6 +1,3 @@
-using System.Web;
-using Microsoft.Practices.Unity;
-
 namespace CustomerManagement.Api.Utils
 {
     public class PerHttpRequestLifetime : LifetimeManager
@@ -24,7 +21,7 @@ namespace CustomerManagement.Api.Utils
 
         public override void RemoveValue()
         {
-            object obj = GetValue();
+            var obj = GetValue();
             HttpContext.Current.Items.Remove(obj);
         }
     }

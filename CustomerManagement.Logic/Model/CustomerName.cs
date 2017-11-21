@@ -4,12 +4,12 @@ namespace CustomerManagement.Logic.Model
 {
     public class CustomerName : ValueObject<CustomerName>
     {
-        public string Value { get; }
-
         private CustomerName(string value)
         {
             Value = value;
         }
+
+        public string Value { get; }
 
         public static Result<CustomerName> Create(Maybe<string> customerNameOrNothing)
         {
@@ -36,7 +36,7 @@ namespace CustomerManagement.Logic.Model
             return Create(customerName).Value;
         }
 
-        public static implicit operator string (CustomerName customerName)
+        public static implicit operator string(CustomerName customerName)
         {
             return customerName.Value;
         }

@@ -1,6 +1,3 @@
-using System.Net;
-using Xunit;
-
 namespace CustomerManagement.Tests.Utils
 {
     public static class ResponseExtensions

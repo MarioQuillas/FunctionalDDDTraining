@@ -1,14 +1,9 @@
 ﻿using System;
-using NullGuard;
 
 namespace CustomerManagement.Logic.Common
 {
     public class Result
     {
-        public bool IsSuccess { get; }
-        public string Error { get; }
-        public bool IsFailure => !IsSuccess;
-
         protected Result(bool isSuccess, string error)
         {
             if (isSuccess && error != string.Empty)
@@ -19,6 +14,10 @@ namespace CustomerManagement.Logic.Common
             IsSuccess = isSuccess;
             Error = error;
         }
+
+        public bool IsSuccess { get; }
+        public string Error { get; }
+        public bool IsFailure => !IsSuccess;
 
         public static Result Fail(string message)
         {
@@ -42,11 +41,9 @@ namespace CustomerManagement.Logic.Common
 
         public static Result Combine(params Result[] results)
         {
-            foreach (Result result in results)
-            {
+            foreach (var result in results)
                 if (result.IsFailure)
                     return result;
-            }
 
             return Ok();
         }
@@ -57,6 +54,12 @@ namespace CustomerManagement.Logic.Common
     {
         private readonly T _value;
 
+        protected internal Result([AllowNull] T value, bool isSuccess, string error)
+            : base(isSuccess, error)
+        {
+            _value = value;
+        }
+
         public T Value
         {
             get
@@ -66,12 +69,6 @@ namespace CustomerManagement.Logic.Common
 
                 return _value;
             }
-        }
-
-        protected internal Result([AllowNull] T value, bool isSuccess, string error)
-            : base(isSuccess, error)
-        {
-            _value = value;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using CustomerManagement.Logic.Common;
 using CustomerManagement.Logic.Model;
-using Xunit;
 
 namespace CustomerManagement.Tests.Fakes
 {

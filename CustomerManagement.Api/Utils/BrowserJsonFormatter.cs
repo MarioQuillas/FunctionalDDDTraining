@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace CustomerManagement.Api.Utils
 {
@@ -15,7 +11,8 @@ namespace CustomerManagement.Api.Utils
             SerializerSettings.Converters.Add(new StringEnumConverter());
         }
 
-        public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
+        public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers,
+            MediaTypeHeaderValue mediaType)
         {
             base.SetDefaultContentHeaders(type, headers, mediaType);
             headers.ContentType = new MediaTypeHeaderValue("application/json");

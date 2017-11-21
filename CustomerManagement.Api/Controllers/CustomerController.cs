@@ -1,9 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Text.RegularExpressions;
-using System.Web.Http;
-using CustomerManagement.Api.Models;
+﻿using CustomerManagement.Api.Models;
 using CustomerManagement.Logic.Common;
 using CustomerManagement.Logic.Model;
 using CustomerManagement.Logic.Utils;
@@ -20,7 +15,7 @@ namespace CustomerManagement.Api.Controllers
             IEmailGateway emailGateway)
             : base(unitOfWork)
         {
-            this.customerRepository = new CustomerRepository(unitOfWork);
+            customerRepository = new CustomerRepository(unitOfWork);
             this.emailGateway = emailGateway;
         }
 
@@ -28,17 +23,17 @@ namespace CustomerManagement.Api.Controllers
         [Route("customers")]
         public HttpResponseMessage Create(CreateCustomerModel model)
         {
-            Result<CustomerName> customerName = CustomerName.Create(model.Name);
-            Result<Email> primaryEmail = Email.Create(model.PrimaryEmail);
-            Result<Maybe<Email>> secondaryEmail = GetSecondaryEmail(model.SecondaryEmail);
-            Result<Industry> industry = Industry.Get(model.Industry);
+            var customerName = CustomerName.Create(model.Name);
+            var primaryEmail = Email.Create(model.PrimaryEmail);
+            var secondaryEmail = GetSecondaryEmail(model.SecondaryEmail);
+            var industry = Industry.Get(model.Industry);
 
-            Result result = Result.Combine(customerName, primaryEmail, secondaryEmail, industry);
+            var result = Result.Combine(customerName, primaryEmail, secondaryEmail, industry);
             if (result.IsFailure)
                 return Error(result.Error);
 
             var customer = new Customer(customerName.Value, primaryEmail.Value, secondaryEmail.Value, industry.Value);
-            this.customerRepository.Save(customer);
+            customerRepository.Save(customer);
 
             return Ok();
         }
@@ -56,11 +51,11 @@ namespace CustomerManagement.Api.Controllers
         [Route("customers/{id}")]
         public HttpResponseMessage Get(long id)
         {
-            Maybe<Customer> customerOrNothing = this.customerRepository.GetById(id);
+            var customerOrNothing = customerRepository.GetById(id);
             if (customerOrNothing.HasNoValue)
                 return Error("Customer with such Id is not found: " + id);
 
-            Customer customer = customerOrNothing.Value;
+            var customer = customerOrNothing.Value;
 
             var model = new
             {
@@ -80,11 +75,11 @@ namespace CustomerManagement.Api.Controllers
         [Route("customers/{id}/emailing")]
         public HttpResponseMessage DisableEmailing(long id)
         {
-            Maybe<Customer> customerOrNothing = this.customerRepository.GetById(id);
+            var customerOrNothing = customerRepository.GetById(id);
             if (customerOrNothing.HasNoValue)
                 return Error("Customer with such Id is not found: " + id);
 
-            Customer customer = customerOrNothing.Value;
+            var customer = customerOrNothing.Value;
             customer.DisableEmailing();
 
             return Ok();
@@ -94,9 +89,9 @@ namespace CustomerManagement.Api.Controllers
         [Route("customers/{id}")]
         public HttpResponseMessage Update(UpdateCustomerModel model)
         {
-            Result<Customer> customerResult = customerRepository.GetById(model.Id)
+            var customerResult = customerRepository.GetById(model.Id)
                 .ToResult("Customer with such Id is not found: " + model.Id);
-            Result<Industry> industryResult = Industry.Get(model.Industry);
+            var industryResult = Industry.Get(model.Industry);
 
             return Result.Combine(customerResult, industryResult)
                 .OnSuccess(() => customerResult.Value.UpdateIndustry(industryResult.Value))

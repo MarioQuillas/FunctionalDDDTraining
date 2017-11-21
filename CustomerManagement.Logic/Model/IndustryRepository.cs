@@ -13,7 +13,7 @@ namespace CustomerManagement.Logic.Model
 
         public Maybe<Industry> GetByName(string name)
         {
-            return this.UnitOfWork.Query<Industry>()
+            return UnitOfWork.Query<Industry>()
                 .SingleOrDefault(x => x.Name == name);
         }
     }

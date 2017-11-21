@@ -5,10 +5,6 @@ namespace CustomerManagement.Logic.Model
 {
     public class EmailingSettings : ValueObject<EmailingSettings>
     {
-        public Industry Industry { get; }
-        public bool EmailingIsDisabled { get; }
-        public EmailCampaign EmailCampaign => GetEmailCampaign(Industry, EmailingIsDisabled);
-
         private EmailingSettings()
         {
         }
@@ -19,6 +15,10 @@ namespace CustomerManagement.Logic.Model
             Industry = industry;
             EmailingIsDisabled = emailingIsDisabled;
         }
+
+        public Industry Industry { get; }
+        public bool EmailingIsDisabled { get; }
+        public EmailCampaign EmailCampaign => GetEmailCampaign(Industry, EmailingIsDisabled);
 
         public EmailingSettings DisableEmailing()
         {
@@ -56,7 +56,7 @@ namespace CustomerManagement.Logic.Model
         {
             unchecked
             {
-                int hashCode = Industry.GetHashCode();
+                var hashCode = Industry.GetHashCode();
                 hashCode = (hashCode * 397) ^ EmailingIsDisabled.GetHashCode();
                 return hashCode;
             }

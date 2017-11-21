@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.ExceptionHandling;
 using CustomerManagement.Api.Models;
-using Newtonsoft.Json;
 
 namespace CustomerManagement.Api.Utils
 {
@@ -22,8 +16,8 @@ namespace CustomerManagement.Api.Utils
 
         private class ErrorResult : IHttpActionResult
         {
-            private readonly HttpRequestMessage _request;
             private readonly Exception _exception;
+            private readonly HttpRequestMessage _request;
 
             public ErrorResult(HttpRequestMessage request, Exception exception)
             {

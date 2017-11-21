@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Data;
 using System.Linq;
 using CustomerManagement.Logic.Common;
-using NHibernate;
-using NHibernate.Linq;
 
 namespace CustomerManagement.Logic.Utils
 {
@@ -16,57 +13,55 @@ namespace CustomerManagement.Logic.Utils
 
         public UnitOfWork()
         {
-            this.session = SessionFactory.OpenSession();
-            this.transaction = session.BeginTransaction(IsolationLevel.ReadCommitted);
+            session = SessionFactory.OpenSession();
+            transaction = session.BeginTransaction(IsolationLevel.ReadCommitted);
         }
 
         public void Dispose()
         {
-            if (!this.isAlive)
+            if (!isAlive)
                 return;
 
-            this.isAlive = false;
+            isAlive = false;
 
             try
             {
-                if (this.isCommitted)
-                {
-                    this.transaction.Commit();
-                }
+                if (isCommitted)
+                    transaction.Commit();
             }
             finally
             {
-                this.transaction.Dispose();
-                this.session.Dispose();
+                transaction.Dispose();
+                session.Dispose();
             }
         }
 
         public void Commit()
         {
-            if (!this.isAlive)
+            if (!isAlive)
                 return;
 
-            this.isCommitted = true;
+            isCommitted = true;
         }
 
         internal Maybe<T> Get<T>(long id) where T : class
         {
-            return this.session.Get<T>(id);
+            return session.Get<T>(id);
         }
 
         internal void SaveOrUpdate<T>(T entity)
         {
-            this.session.SaveOrUpdate(entity);
+            session.SaveOrUpdate(entity);
         }
 
         internal void Delete<T>(T entity)
         {
-            this.session.Delete(entity);
+            session.Delete(entity);
         }
 
         internal IQueryable<T> Query<T>()
         {
-            return this.session.Query<T>();
+            return session.Query<T>();
         }
     }
 }

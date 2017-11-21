@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using CustomerManagement.Logic.Common;
 using CustomerManagement.Logic.Model;
 using CustomerManagement.Logic.Utils;
-using Xunit;
 
 namespace CustomerManagement.Tests.Utils
 {
@@ -16,10 +13,16 @@ namespace CustomerManagement.Tests.Utils
             _unitOfWork = new UnitOfWork();
         }
 
+
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
+        }
+
         public Customer ShouldContainCustomer(string name)
         {
             var repository = new CustomerRepository(_unitOfWork);
-            Customer customer = repository.GetByName(name);
+            var customer = repository.GetByName(name);
 
             Assert.NotNull(customer);
 
@@ -29,17 +32,11 @@ namespace CustomerManagement.Tests.Utils
         public Customer ShouldContainCustomer(long id)
         {
             var repository = new CustomerRepository(_unitOfWork);
-            Maybe<Customer> customer = repository.GetById(id);
+            var customer = repository.GetById(id);
 
             Assert.True(customer.HasValue);
 
             return customer.Value;
-        }
-
-
-        public void Dispose()
-        {
-            _unitOfWork.Dispose();
         }
     }
 }

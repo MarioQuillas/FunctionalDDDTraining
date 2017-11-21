@@ -1,6 +1,4 @@
-﻿using NullGuard;
-
-[assembly: NullGuard(ValidationFlags.All)]
+﻿[assembly: NullGuard(ValidationFlags.All)]
 
 namespace CustomerManagement.Logic.Utils
 {

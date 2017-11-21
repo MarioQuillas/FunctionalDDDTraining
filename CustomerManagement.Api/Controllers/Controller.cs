@@ -1,7 +1,4 @@
-﻿using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using CustomerManagement.Api.Models;
+﻿using CustomerManagement.Api.Models;
 using CustomerManagement.Logic.Utils;
 
 namespace CustomerManagement.Api.Controllers
@@ -19,14 +16,14 @@ namespace CustomerManagement.Api.Controllers
         {
             return Request.CreateResponse(HttpStatusCode.BadRequest, Envelope.Error(errorMessage));
         }
-        
-        protected new HttpResponseMessage Ok()
+
+        protected HttpResponseMessage Ok()
         {
             _unitOfWork.Commit();
             return Request.CreateResponse(HttpStatusCode.OK, Envelope.Ok());
         }
 
-        protected new HttpResponseMessage Ok<T>(T result)
+        protected HttpResponseMessage Ok<T>(T result)
         {
             _unitOfWork.Commit();
             return Request.CreateResponse(HttpStatusCode.OK, Envelope.Ok(result));

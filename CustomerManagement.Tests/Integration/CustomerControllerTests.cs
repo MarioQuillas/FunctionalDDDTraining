@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
 using CustomerManagement.Api.Controllers;
 using CustomerManagement.Api.Models;
 using CustomerManagement.Logic.Model;
 using CustomerManagement.Logic.Utils;
 using CustomerManagement.Tests.Fakes;
 using CustomerManagement.Tests.Utils;
-using Xunit;
 
 namespace CustomerManagement.Tests.Integration
 {
@@ -25,7 +21,7 @@ namespace CustomerManagement.Tests.Integration
                 SecondaryEmail = "info@johnson.com"
             };
 
-            Response response = Invoke(x => x.Create(model));
+            var response = Invoke(x => x.Create(model));
 
             response.ShouldBeOk();
             using (var db = new DB())
@@ -49,7 +45,7 @@ namespace CustomerManagement.Tests.Integration
                 PrimaryEmail = "mike@johnson.com"
             };
 
-            Response response = Invoke(x => x.Create(model));
+            var response = Invoke(x => x.Create(model));
 
             response.ShouldBeOk();
             using (var db = new DB())
@@ -62,14 +58,14 @@ namespace CustomerManagement.Tests.Integration
         [Fact]
         public void Update_updates_a_customer_if_no_validation_errors()
         {
-            Customer customer = CreateCustomer("Cars");
+            var customer = CreateCustomer("Cars");
             var model = new UpdateCustomerModel
             {
                 Id = customer.Id,
                 Industry = "Other"
             };
 
-            Response response = Invoke(x => x.Update(model));
+            var response = Invoke(x => x.Update(model));
 
             response.ShouldBeOk();
             using (var db = new DB())
@@ -83,9 +79,9 @@ namespace CustomerManagement.Tests.Integration
         [Fact]
         public void DisableEmailing_disables_emailing()
         {
-            Customer customer = CreateCustomer("Cars");
+            var customer = CreateCustomer("Cars");
 
-            Response response = Invoke(x => x.DisableEmailing(customer.Id));
+            var response = Invoke(x => x.DisableEmailing(customer.Id));
 
             response.ShouldBeOk();
             using (var db = new DB())
@@ -98,10 +94,10 @@ namespace CustomerManagement.Tests.Integration
         [Fact]
         public void Promote_promotes_customer()
         {
-            Customer customer = CreateCustomer();
+            var customer = CreateCustomer();
             var emailGateway = new FakeEmailGateway();
 
-            Response response = Invoke(x => x.Promote(customer.Id), emailGateway);
+            var response = Invoke(x => x.Promote(customer.Id), emailGateway);
 
             response.ShouldBeOk();
             using (var db = new DB())
@@ -116,10 +112,10 @@ namespace CustomerManagement.Tests.Integration
         [Fact]
         public void Promote_cannot_promote_a_gold_customer()
         {
-            Customer customer = CreateCustomer(status: CustomerStatus.Gold);
+            var customer = CreateCustomer(status: CustomerStatus.Gold);
             var emailGateway = new FakeEmailGateway();
 
-            Response response = Invoke(x => x.Promote(customer.Id), emailGateway);
+            var response = Invoke(x => x.Promote(customer.Id), emailGateway);
 
             response.ShouldBeError("The customer has the highest status possible");
             emailGateway.ShouldContainNumberOfPromotionNotificationsSent(0);
@@ -129,9 +125,9 @@ namespace CustomerManagement.Tests.Integration
         {
             using (var unitOfWork = new UnitOfWork())
             {
-                Industry industry = new IndustryRepository(unitOfWork).GetByName(industryName ?? "Cars").Value;
+                var industry = new IndustryRepository(unitOfWork).GetByName(industryName ?? "Cars").Value;
 
-                var customer = new Customer((CustomerName)"Customer Name", (Email)"some@email.com", null, industry);
+                var customer = new Customer((CustomerName) "Customer Name", (Email) "some@email.com", null, industry);
                 if (status == CustomerStatus.Gold)
                 {
                     customer.Promote();
@@ -145,7 +141,8 @@ namespace CustomerManagement.Tests.Integration
             }
         }
 
-        protected Response Invoke(Func<CustomerController, HttpResponseMessage> action, FakeEmailGateway emailGateway = null)
+        protected Response Invoke(Func<CustomerController, HttpResponseMessage> action,
+            FakeEmailGateway emailGateway = null)
         {
             using (var unitOfWork = new UnitOfWork())
             {
